@@ -28,7 +28,7 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(user => user.UpdatedAt);
 
-        builder.Property(x => x.Email).IsRequired();
+        builder.Property(x => x.Email).IsRequired().HasMaxLength(254);
 
         builder.Property(x => x.Document).IsRequired().HasMaxLength(14);
 
