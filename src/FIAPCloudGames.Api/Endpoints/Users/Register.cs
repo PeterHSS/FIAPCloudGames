@@ -1,15 +1,19 @@
-﻿namespace FIAPCloudGames.Api.Endpoints.Users;
+﻿using FIAPCloudGames.Application.DTOs.Users;
+using FIAPCloudGames.Application.UseCases.Users;
+
+namespace FIAPCloudGames.Api.Endpoints.Users;
 
 public class Register : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("users/register", async () =>
+        app.MapPost("users/register", async (CreateUserRequest request, CreateUserUseCase useCase) =>
         {
-            await Task.Delay(100);
+            await useCase.HandleAsync(request);
 
-            return Results.Ok();
+            return Results.Created();
         })
-        .WithTags(Tags.Users); 
+        .WithTags(Tags.Users)
+        .AllowAnonymous();
     }
 }

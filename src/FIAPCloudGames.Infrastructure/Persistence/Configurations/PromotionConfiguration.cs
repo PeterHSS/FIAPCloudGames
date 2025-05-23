@@ -25,5 +25,7 @@ public class PromotionConfiguration : IEntityTypeConfiguration<Promotion>
         builder.Property(promotion => promotion.DiscountPercentage).IsRequired().HasColumnType("decimal(10,2)");
 
         builder.Property(promotion => promotion.Description).HasMaxLength(1000);
+
+        builder.HasMany(promotion => promotion.Games).WithOne().HasForeignKey("PromotionId").OnDelete(DeleteBehavior.SetNull);
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace FIAPCloudGames.Domain.Entities.Base;
+﻿namespace WebApplication1.Entities.Abstractions;
 
-public abstract class Entity
+public class Entity
 {
     public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }

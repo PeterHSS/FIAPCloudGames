@@ -20,22 +20,24 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(user => user.CreatedAt).IsRequired();
 
-        builder.Property(user => user.UpdatedAt);
-
-        builder.Property(user => user.BirthDate);
+        builder.Property(user => user.BirthDate).IsRequired();
 
         builder.Property(user => user.Nickname);
 
         builder.Property(user => user.UpdatedAt);
 
-        builder.Property(x => x.Email).IsRequired().HasMaxLength(254);
+        builder.Property(user => user.Email).IsRequired().HasMaxLength(254);
 
-        builder.Property(x => x.Document).IsRequired().HasMaxLength(14);
+        builder.Property(user => user.Document).IsRequired().HasMaxLength(14);
+
+        builder.Property(user => user.Role).HasConversion<string>().HasMaxLength(50);
 
         builder.HasIndex(user => user.Email).IsUnique().HasDatabaseName("IX_Users_Email");
 
         builder.HasIndex(user => user.Document).IsUnique().HasDatabaseName("IX_Users_Document");
 
         builder.HasIndex(user => user.Name).HasDatabaseName("IX_Users_Name");
+
+        builder.HasMany(user => user.Games).WithMany(game => game.Users).UsingEntity(join => join.ToTable("UserGames"));
     }
 }

@@ -2,9 +2,12 @@ using System.Reflection;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
 using FIAPCloudGames.Api.Extensions;
+using FIAPCloudGames.Application;
 using FIAPCloudGames.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddApplication();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 

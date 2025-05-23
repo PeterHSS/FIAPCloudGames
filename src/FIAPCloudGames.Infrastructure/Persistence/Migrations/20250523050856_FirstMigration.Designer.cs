@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FIAPCloudGames.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(FIAPCloudGamesDbContext))]
-    [Migration("20250521031238_FirstMigration")]
+    [Migration("20250523050856_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />
@@ -55,6 +55,9 @@ namespace FIAPCloudGames.Infrastructure.Persistence.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
 
+                    b.Property<Guid?>("PromotionId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("ReleasedAt")
                         .HasColumnType("datetime2");
 
@@ -69,6 +72,8 @@ namespace FIAPCloudGames.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("IsActive")
                         .HasDatabaseName("IX_Games_IsActive");
+
+                    b.HasIndex("PromotionId");
 
                     b.ToTable("Games", (string)null);
                 });
@@ -145,6 +150,11 @@ namespace FIAPCloudGames.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -163,6 +173,49 @@ namespace FIAPCloudGames.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("IX_Users_Name");
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("GameUser", b =>
+                {
+                    b.Property<Guid>("GamesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("GamesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("UserGames", (string)null);
+                });
+
+            modelBuilder.Entity("FIAPCloudGames.Domain.Entities.Game", b =>
+                {
+                    b.HasOne("FIAPCloudGames.Domain.Entities.Promotion", null)
+                        .WithMany("Games")
+                        .HasForeignKey("PromotionId")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("GameUser", b =>
+                {
+                    b.HasOne("FIAPCloudGames.Domain.Entities.Game", null)
+                        .WithMany()
+                        .HasForeignKey("GamesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FIAPCloudGames.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FIAPCloudGames.Domain.Entities.Promotion", b =>
+                {
+                    b.Navigation("Games");
                 });
 #pragma warning restore 612, 618
         }
