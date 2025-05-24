@@ -1,7 +1,7 @@
 ﻿
 namespace FIAPCloudGames.Api.Endpoints.Users;
 
-public class GetById : IEndpoint
+public sealed class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {

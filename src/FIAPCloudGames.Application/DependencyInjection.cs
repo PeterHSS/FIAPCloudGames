@@ -1,5 +1,5 @@
-﻿using FIAPCloudGames.Application.UseCases.Users;
-using FIAPCloudGames.Application.Validators.Abstractions;
+﻿using FIAPCloudGames.Application.DTOs.Users;
+using FIAPCloudGames.Application.UseCases.Users;
 using FIAPCloudGames.Application.Validators.Users;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,20 +10,26 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        #region Use Cases
+        services
+            .AddUseCases()
+            .AddValidators();
 
+        return services;
+    }
+
+    private static IServiceCollection AddUseCases(this IServiceCollection services)
+    {
         services.AddScoped<CreateUserUseCase>();
 
-        #endregion
+        services.AddScoped<LoginUseCase>();
 
-        #region Validators
+        return services;
+    }
 
-        services.AddValidatorsFromAssembly(typeof(BaseValidator<>).Assembly, includeInternalTypes: true);
-
-        services.AddScoped<ICreateUserValidator, CreateUserValidator>();
-
-        #endregion
-
+    private static IServiceCollection AddValidators(this IServiceCollection services)
+    {
+        services.AddScoped<IValidator<CreateUserRequest>, CreateUserValidator>();
+        
         return services;
     }
 }

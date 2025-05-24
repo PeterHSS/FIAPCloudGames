@@ -1,6 +1,5 @@
-﻿using FIAPCloudGames.Application.Abstractions.Infrastructure;
+﻿using FIAPCloudGames.Application.Abstractions.Infrastructure.Providers;
 using FIAPCloudGames.Application.DTOs.Users;
-using FIAPCloudGames.Application.Validators.Users;
 using FIAPCloudGames.Domain.Abstractions.Repositories;
 using FIAPCloudGames.Domain.Entities;
 using FluentValidation;
@@ -10,10 +9,10 @@ namespace FIAPCloudGames.Application.UseCases.Users;
 public class CreateUserUseCase
 {
     private readonly IUserRepository _userRepository;
-    private readonly ICreateUserValidator _validator;
-    private readonly IPasswordHasher _passwordHasher;
+    private readonly IValidator<CreateUserRequest> _validator;
+    private readonly IPasswordHasherProvider _passwordHasher;
 
-    public CreateUserUseCase(IUserRepository userRepository, ICreateUserValidator validator, IPasswordHasher passwordHasher)
+    public CreateUserUseCase(IUserRepository userRepository, IValidator<CreateUserRequest> validator, IPasswordHasherProvider passwordHasher)
     {
         _userRepository = userRepository;
         _validator = validator;

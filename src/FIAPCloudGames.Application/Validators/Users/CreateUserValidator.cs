@@ -1,12 +1,12 @@
 ﻿using FIAPCloudGames.Application.DTOs.Users;
-using FIAPCloudGames.Application.Validators.Abstractions;
+using FIAPCloudGames.Application.Validators.Commom;
 using FIAPCloudGames.Domain.Abstractions.Repositories;
 using FIAPCloudGames.Domain.Entities;
 using FluentValidation;
 
 namespace FIAPCloudGames.Application.Validators.Users;
 
-internal sealed class CreateUserValidator : BaseValidator<CreateUserRequest>, ICreateUserValidator   
+internal sealed class CreateUserValidator : AbstractValidator<CreateUserRequest>
 {
     private readonly IUserRepository _userRepository;
 
@@ -31,11 +31,25 @@ internal sealed class CreateUserValidator : BaseValidator<CreateUserRequest>, IC
 
         RuleFor(user => user.Document)
             .NotEmpty().WithMessage("Document is required.")
-            .MaximumLength(14).WithMessage("Document can have a maximum of 14 characters.");
+            .MaximumLength(14).WithMessage("Document can have a maximum of 14 characters.")
+            .Must(BeAValidDocument).WithMessage("Document is not valid.");
 
         RuleFor(user => user.BirthDate)
             .NotEmpty().WithMessage("BirthDate is required.")
             .Must(BeInThePast).WithMessage("BirthDate must be in the past.");
+    }
+
+    private bool BeAValidDocument(string document)
+    {
+        string digits = new(document.Where(char.IsDigit).ToArray());
+
+        if (digits.Length == 11)
+            return DocumentValidator.IsValidCpf(digits);
+
+        if (digits.Length == 14)
+            return DocumentValidator.IsValidCnpj(digits);
+
+        return false;
     }
 
     private async Task<bool> BeUniqueEmail(string email, CancellationToken cancellationToken)
@@ -45,8 +59,8 @@ internal sealed class CreateUserValidator : BaseValidator<CreateUserRequest>, IC
         return user is null;
     }
 
-    private static bool BeInThePast(DateTime dateTime) 
-        => dateTime < DateTime.UtcNow;
+    private static bool BeInThePast(DateTime dateTime)
+        => dateTime.Date < DateTime.UtcNow.Date;
 
     private static bool BeAValidPassword(string password)
     {

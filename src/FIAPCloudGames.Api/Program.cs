@@ -1,31 +1,17 @@
 using System.Reflection;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
+using FIAPCloudGames.Api;
 using FIAPCloudGames.Api.Extensions;
 using FIAPCloudGames.Application;
 using FIAPCloudGames.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddApplication();
-
-builder.Services.AddInfrastructure(builder.Configuration);
-
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddApiVersioning(options =>
-{
-    options.DefaultApiVersion = new ApiVersion(1);
-    options.ApiVersionReader = new UrlSegmentApiVersionReader();
-}).AddApiExplorer(options =>
-{
-    options.GroupNameFormat = "'v'V";
-    options.SubstituteApiVersionInUrl = true;
-});
-
-builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
+builder.Services
+    .AddPresentation()
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration);
 
 WebApplication app = builder.Build();
 

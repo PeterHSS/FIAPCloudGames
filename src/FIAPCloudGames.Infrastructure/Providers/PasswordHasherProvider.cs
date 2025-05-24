@@ -1,9 +1,9 @@
 ﻿using System.Security.Cryptography;
-using FIAPCloudGames.Application.Abstractions.Infrastructure;
+using FIAPCloudGames.Application.Abstractions.Infrastructure.Providers;
 
-namespace FIAPCloudGames.Infrastructure.Commom;
+namespace FIAPCloudGames.Infrastructure.Providers;
 
-internal sealed class PasswordHasher : IPasswordHasher
+internal sealed class PasswordHasherProvider : IPasswordHasherProvider
 {
     private const int HashSize = 32;
     private const int Iterations = 100000;
@@ -23,12 +23,12 @@ internal sealed class PasswordHasher : IPasswordHasher
     public bool Verify(string password, string hashedPassword)
     {
         string[] parts = hashedPassword.Split('-');
-        
+
         if (parts.Length != 2)
             throw new FormatException("Password with invalid hash format.");
 
         byte[] hash = Convert.FromHexString(parts[0]);
-        
+
         byte[] salt = Convert.FromHexString(parts[1]);
 
         byte[] hashToVerify = Rfc2898DeriveBytes.Pbkdf2(password, salt, Iterations, HashAlgorithm, HashSize);

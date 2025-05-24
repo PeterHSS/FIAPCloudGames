@@ -6,12 +6,13 @@ public class GetAll : IEndpoint
     {
         app.MapGet("users", async () =>
         {
-            var result = string.Empty;
+            string result = string.Empty;
 
             await Task.Delay(1000);
 
             return Results.Ok(result);
         })
-        .WithTags(Tags.Users);
+        .WithTags(Tags.Users)
+        .RequireAuthorization();
     }
 }
