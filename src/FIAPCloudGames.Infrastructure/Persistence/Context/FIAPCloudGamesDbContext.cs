@@ -1,7 +1,7 @@
 ﻿using FIAPCloudGames.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace FIAPCloudGames.Infrastructure.Persistence;
+namespace FIAPCloudGames.Infrastructure.Persistence.Context;
 
 public sealed class FIAPCloudGamesDbContext : DbContext
 {
@@ -9,13 +9,7 @@ public sealed class FIAPCloudGamesDbContext : DbContext
     public DbSet<Game> Games { get; set; }
     public DbSet<Promotion> Promotions { get; set; }
 
-    public FIAPCloudGamesDbContext()
-    {
-    }
-
-    public FIAPCloudGamesDbContext(DbContextOptions options) : base(options)
-    {
-    }
+    public FIAPCloudGamesDbContext(DbContextOptions options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

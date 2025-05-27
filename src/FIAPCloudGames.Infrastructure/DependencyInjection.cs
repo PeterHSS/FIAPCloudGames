@@ -1,9 +1,11 @@
 ﻿using FIAPCloudGames.Application.Abstractions.Infrastructure.Providers;
+using FIAPCloudGames.Application.Abstractions.Infrastructure.Services;
 using FIAPCloudGames.Domain.Abstractions.Repositories;
 using FIAPCloudGames.Domain.Enums;
-using FIAPCloudGames.Infrastructure.Persistence;
+using FIAPCloudGames.Infrastructure.Persistence.Context;
 using FIAPCloudGames.Infrastructure.Persistence.Repositories;
 using FIAPCloudGames.Infrastructure.Providers;
+using FIAPCloudGames.Infrastructure.Services;
 using FIAPCloudGames.Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +21,8 @@ public static class DependencyInjection
         services
             .AddSettings(configuration)
             .AddRepositories(configuration)
-            .AddProviders();
+            .AddProviders()
+            .AddServices();
 
         return services;
     }
@@ -49,6 +52,15 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHasherProvider, PasswordHasherProvider>();
 
         services.AddScoped<IJwtProvider, JwtProvider>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddServices(this IServiceCollection services)
+    {
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         return services;
     }

@@ -1,9 +1,9 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using FIAPCloudGames.Application.Abstractions.Infrastructure.Providers;
 using FIAPCloudGames.Domain.Entities;
 using FIAPCloudGames.Infrastructure.Settings;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
 namespace FIAPCloudGames.Infrastructure.Providers;
@@ -27,7 +27,7 @@ internal sealed class JwtProvider : IJwtProvider
         {
             Subject = new ClaimsIdentity(
                 [
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                    new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Role, user.Role.ToString())
                 ]),
@@ -37,11 +37,10 @@ internal sealed class JwtProvider : IJwtProvider
             Audience = _jwtSettings.Audience
         };
 
+        JwtSecurityTokenHandler jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
 
-        JsonWebTokenHandler jsonWebTokenHandler = new JsonWebTokenHandler();
+        SecurityToken securityToken = jwtSecurityTokenHandler.CreateToken(securityTokenDescriptor);
 
-        string token = jsonWebTokenHandler.CreateToken(securityTokenDescriptor);
-
-        return token;
+        return jwtSecurityTokenHandler.WriteToken(securityToken);
     }
 }

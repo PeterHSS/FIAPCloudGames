@@ -1,4 +1,3 @@
-using System.Reflection;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
 using FIAPCloudGames.Api;
@@ -9,7 +8,7 @@ using FIAPCloudGames.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddPresentation()
+    .AddPresentation(builder.Configuration)
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
@@ -30,8 +29,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapEndpoints(versionedGroup);
-
 app.UseHttpsRedirection();
+
+app.UseJwtAuthenticationAndAuthorization();
+
+app.MapEndpoints(versionedGroup);
 
 app.Run();

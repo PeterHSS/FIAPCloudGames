@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FIAPCloudGames.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(FIAPCloudGamesDbContext))]
-    [Migration("20250523050856_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20250527043040_SecondMigration")]
+    partial class SecondMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,7 +61,7 @@ namespace FIAPCloudGames.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("ReleasedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id")
@@ -106,7 +106,7 @@ namespace FIAPCloudGames.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id")
@@ -144,7 +144,8 @@ namespace FIAPCloudGames.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Nickname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -155,7 +156,7 @@ namespace FIAPCloudGames.Infrastructure.Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id")

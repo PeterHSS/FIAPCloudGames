@@ -11,7 +11,7 @@ public sealed class Login : IEndpoint
         {
             string result = await useCase.HandleAsync(request);
 
-            return Results.Ok(result);
+            return Results.Ok(new { token = result });
         })
         .WithTags(Tags.Users)
         .AllowAnonymous();

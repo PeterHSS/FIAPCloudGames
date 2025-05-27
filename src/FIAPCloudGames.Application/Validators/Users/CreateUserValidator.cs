@@ -6,7 +6,7 @@ using FluentValidation;
 
 namespace FIAPCloudGames.Application.Validators.Users;
 
-internal sealed class CreateUserValidator : AbstractValidator<CreateUserRequest>
+internal sealed class CreateUserValidator : AbstractUserValidator<CreateUserRequest>
 {
     private readonly IUserRepository _userRepository;
 
@@ -14,9 +14,9 @@ internal sealed class CreateUserValidator : AbstractValidator<CreateUserRequest>
     {
         _userRepository = userRepository;
 
-        RuleFor(user => user.Name)
-            .NotEmpty().WithMessage("Name is required.")
-            .MaximumLength(200).WithMessage("Name can have a maximum of 200 characters.");
+        AddNameRule(user => user.Name);
+
+        AddNicknameRule(user => user.Nickname);
 
         RuleFor(user => user.Email)
             .NotEmpty().WithMessage("Email is required.")

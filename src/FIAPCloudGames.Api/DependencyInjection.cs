@@ -6,11 +6,11 @@ namespace FIAPCloudGames.Api;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddPresentation(this IServiceCollection services)
+    public static IServiceCollection AddPresentation(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddEndpointsApiExplorer();
 
-        services.AddSwaggerGen();
+        services.AddSwaggerGenWithAuth();
 
         services.AddApiVersioning(options =>
         {
@@ -23,6 +23,8 @@ public static class DependencyInjection
         });
 
         services.AddEndpoints(Assembly.GetExecutingAssembly());
+
+        services.AddJwtAuthenticationAndAuthorization(configuration);    
 
         return services;
     }

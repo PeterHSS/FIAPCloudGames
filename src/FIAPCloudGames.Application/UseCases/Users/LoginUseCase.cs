@@ -12,7 +12,10 @@ public sealed class LoginUseCase
     private readonly IPasswordHasherProvider _passwordHasher;
     private readonly IJwtProvider _jwtProvider;
 
-    public LoginUseCase(IUserRepository userRepository, IPasswordHasherProvider passwordHasher, IJwtProvider jwtProvider)
+    public LoginUseCase(
+        IUserRepository userRepository,
+        IPasswordHasherProvider passwordHasher,
+        IJwtProvider jwtProvider)
     {
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;

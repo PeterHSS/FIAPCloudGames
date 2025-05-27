@@ -1,18 +1,18 @@
-﻿namespace FIAPCloudGames.Api.Endpoints.Users;
+﻿using FIAPCloudGames.Application.DTOs.Users;
+using FIAPCloudGames.Application.UseCases.Users;
+
+namespace FIAPCloudGames.Api.Endpoints.Users;
 
 public class GetAll : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("users", async () =>
+        app.MapGet("users", async (GetAllUsersUseCase useCase) =>
         {
-            string result = string.Empty;
+            IEnumerable<UserResponse> response = await useCase.HandleAsync();
 
-            await Task.Delay(1000);
-
-            return Results.Ok(result);
+            return Results.Ok(response);
         })
-        .WithTags(Tags.Users)
-        .RequireAuthorization();
+        .WithTags(Tags.Users);
     }
 }

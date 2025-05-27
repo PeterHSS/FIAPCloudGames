@@ -1,15 +1,19 @@
 ﻿using FIAPCloudGames.Domain.Abstractions.Repositories;
 using FIAPCloudGames.Domain.Entities;
+using FIAPCloudGames.Infrastructure.Persistence.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace FIAPCloudGames.Infrastructure.Persistence.Repositories;
 
 internal sealed class UserRepository : IUserRepository
 {
     private readonly IGenericRepository<User> _genericRepository;
+    private readonly FIAPCloudGamesDbContext _context;
 
-    public UserRepository(IGenericRepository<User> genericRepository)
+    public UserRepository(IGenericRepository<User> genericRepository, FIAPCloudGamesDbContext context)
     {
         _genericRepository = genericRepository;
+        _context = context;
     }
 
     public async Task AddAsync(User user, CancellationToken cancellationToken = default)
@@ -20,6 +24,14 @@ internal sealed class UserRepository : IUserRepository
     public async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _genericRepository.GetAllAsync(cancellationToken: cancellationToken);
+    }
+
+    public async Task<IEnumerable<User>> GetAllWithGamesAsync(CancellationToken cancellationToken)
+    {
+        return await _context.Users
+            .AsNoTracking()
+            .Include(user => user.Games)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)

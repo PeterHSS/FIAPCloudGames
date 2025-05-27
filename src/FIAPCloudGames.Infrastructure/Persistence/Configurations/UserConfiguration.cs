@@ -22,7 +22,7 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(user => user.BirthDate).IsRequired();
 
-        builder.Property(user => user.Nickname);
+        builder.Property(user => user.Nickname).IsRequired().HasMaxLength(100);
 
         builder.Property(user => user.UpdatedAt);
 

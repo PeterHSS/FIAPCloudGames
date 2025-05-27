@@ -13,10 +13,21 @@ public sealed class GetAllUsersUseCase
         _userRepository = userRepository;
     }
 
-    public async Task<IEnumerable<UserResponse>> ExecuteAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<UserResponse>> HandleAsync(CancellationToken cancellationToken = default)
     {
-        IEnumerable<User> users = await _userRepository.GetAllAsync(cancellationToken);
-        
-        return users.Select(user => new UserResponse(user.Id, user.Name, user.Email, user.Nickname, user.Document, user.BirthDate, user.CreatedAt, user.UpdatedAt));
+        IEnumerable<User> users = await _userRepository.GetAllWithGamesAsync(cancellationToken);
+
+        return
+            users
+            .Select(user => new UserResponse(
+                user.Id,
+                user.Name,
+                user.Email,
+                user.Nickname,
+                user.Document,
+                user.BirthDate,
+                user.CreatedAt,
+                user.UpdatedAt,
+                user.Games.Select(UserGameResponse.Create)));
     }
 }

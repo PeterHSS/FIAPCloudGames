@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using FIAPCloudGames.Domain.Abstractions.Repositories;
 using FIAPCloudGames.Domain.Entities.Base;
+using FIAPCloudGames.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace FIAPCloudGames.Infrastructure.Persistence.Repositories;
