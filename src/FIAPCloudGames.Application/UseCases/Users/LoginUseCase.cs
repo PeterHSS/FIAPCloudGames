@@ -27,12 +27,12 @@ public sealed class LoginUseCase
         User? user = await _userRepository.GetByEmailAsync(request.Email);
 
         if (user is null)
-            throw new ValidationException("Invalid email or password.");
+            throw new KeyNotFoundException("Invalid email or password.");
 
         bool verified = _passwordHasher.Verify(request.Password, user.Password);
 
         if (!verified)
-            throw new ValidationException("Invalid email or password.");
+            throw new KeyNotFoundException("Invalid email or password.");
 
         string token = _jwtProvider.Create(user);
 

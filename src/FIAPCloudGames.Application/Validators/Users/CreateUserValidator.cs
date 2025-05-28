@@ -1,19 +1,14 @@
 ﻿using FIAPCloudGames.Application.DTOs.Users;
 using FIAPCloudGames.Application.Validators.Commom;
 using FIAPCloudGames.Domain.Abstractions.Repositories;
-using FIAPCloudGames.Domain.Entities;
 using FluentValidation;
 
 namespace FIAPCloudGames.Application.Validators.Users;
 
 internal sealed class CreateUserValidator : AbstractUserValidator<CreateUserRequest>
 {
-    private readonly IUserRepository _userRepository;
-
     public CreateUserValidator(IUserRepository userRepository)
     {
-        _userRepository = userRepository;
-
         AddNameRule(user => user.Name);
 
         AddNicknameRule(user => user.Nickname);
@@ -21,8 +16,7 @@ internal sealed class CreateUserValidator : AbstractUserValidator<CreateUserRequ
         RuleFor(user => user.Email)
             .NotEmpty().WithMessage("Email is required.")
             .MaximumLength(254).WithMessage("Email can have a maximum of 254 characters.")
-            .EmailAddress().WithMessage("Email format is invalid.")
-            .MustAsync(BeUniqueEmail).WithMessage("Email is already in use.");
+            .EmailAddress().WithMessage("Email format is invalid.");
 
         RuleFor(user => user.Password)
             .NotEmpty().WithMessage("Password is required.")
@@ -52,15 +46,8 @@ internal sealed class CreateUserValidator : AbstractUserValidator<CreateUserRequ
         return false;
     }
 
-    private async Task<bool> BeUniqueEmail(string email, CancellationToken cancellationToken)
-    {
-        User? user = await _userRepository.GetByEmailAsync(email, cancellationToken);
-
-        return user is null;
-    }
-
     private static bool BeInThePast(DateTime dateTime)
-        => dateTime.Date < DateTime.UtcNow.Date;
+         => dateTime.Date < DateTime.UtcNow.Date;
 
     private static bool BeAValidPassword(string password)
     {

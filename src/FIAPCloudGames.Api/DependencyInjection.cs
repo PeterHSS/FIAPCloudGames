@@ -26,6 +26,8 @@ public static class DependencyInjection
 
         services.AddJwtAuthenticationAndAuthorization(configuration);    
 
+        services.AddGlobalExceptionHandler();
+
         return services;
     }
 }

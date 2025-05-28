@@ -17,13 +17,8 @@ namespace FIAPCloudGames.UnitTests.Application.UseCases.Users
 
         private readonly CreateUserUseCase _useCase;
 
-        public CreateUserUseCaseTests()
-        {
-            _useCase = new CreateUserUseCase(
-                _userRepositoryMock.Object,
-                _validatorMock.Object,
-                _passwordHasherMock.Object);
-        }
+        public CreateUserUseCaseTests() 
+            => _useCase = new CreateUserUseCase(_userRepositoryMock.Object, _passwordHasherMock.Object);
 
         [Fact]
         public async Task HandleAsync_ValidRequest_ValidatesHashesAndCreatesUser()
@@ -58,7 +53,7 @@ namespace FIAPCloudGames.UnitTests.Application.UseCases.Users
 
             // Assert
             _validatorMock.Verify(v => v.ValidateAsync(request, It.IsAny<CancellationToken>()), Times.Once);
-            
+
             _passwordHasherMock.Verify(p => p.Hash(request.Password), Times.Once);
 
             Assert.NotNull(createdUser);
