@@ -10,4 +10,5 @@ public interface IUserRepository
     Task AddAsync(User user, CancellationToken cancellationToken = default);
     Task UpdateAsync(User user, CancellationToken cancellationToken = default);
     Task<IEnumerable<User>> GetAllWithGamesAsync(CancellationToken cancellationToken);
+    Task<User?>  GetByIdWithGamesync(Guid id);
 }

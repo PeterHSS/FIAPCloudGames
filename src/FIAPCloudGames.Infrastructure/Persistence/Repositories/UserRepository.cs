@@ -36,12 +36,20 @@ internal sealed class UserRepository : IUserRepository
 
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        return  await _genericRepository.GetFirstOrDefaultAsyncWithFilter(x => x.Email == email, cancellationToken);
+        return await _genericRepository.GetFirstOrDefaultAsyncWithFilter(x => x.Email == email, cancellationToken);
     }
 
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _genericRepository.GetByIdAsync(id, cancellationToken);
+    }
+
+    public async Task<User?> GetByIdWithGamesync(Guid id)
+    {
+        return await _context.Users
+            .AsNoTracking()
+            .Include(user => user.Games)
+            .FirstOrDefaultAsync(user => user.Id == id);
     }
 
     public async Task UpdateAsync(User user, CancellationToken cancellationToken = default)

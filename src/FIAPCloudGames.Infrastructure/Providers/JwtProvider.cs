@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace FIAPCloudGames.Infrastructure.Providers;
 
-internal sealed class JwtProvider : IJwtProvider
+public sealed class JwtProvider : IJwtProvider
 {
     private readonly JwtSettings _jwtSettings;
 

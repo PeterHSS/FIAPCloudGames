@@ -3,7 +3,7 @@ using FIAPCloudGames.Application.Abstractions.Infrastructure.Providers;
 
 namespace FIAPCloudGames.Infrastructure.Providers;
 
-internal sealed class PasswordHasherProvider : IPasswordHasherProvider
+public sealed class PasswordHasherProvider : IPasswordHasherProvider
 {
     private const int HashSize = 32;
     private const int Iterations = 100000;

@@ -1,17 +1,18 @@
 ﻿
+using FIAPCloudGames.Application.DTOs.Users;
+using FIAPCloudGames.Application.UseCases.Users;
+
 namespace FIAPCloudGames.Api.Endpoints.Users;
 
 public sealed class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("users/{id:guid}", async (Guid id) =>
+        app.MapGet("users/{id:guid}", async (Guid id, GetUserByIdUseCase useCase) =>
         {
-            var result = string.Empty;
+            UserResponse response = await useCase.HandleAsync(id);
 
-            await Task.Delay(1000);
-
-            return Results.Ok(result);
+            return Results.Ok(response);
         })
         .WithTags(Tags.Users); 
     }
