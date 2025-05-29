@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using FIAPCloudGames.Application.DTOs.Users;
+using FIAPCloudGames.Application.UseCases.Promotions;
 using FIAPCloudGames.Application.UseCases.Users;
 using FIAPCloudGames.Application.Validators.Users;
 using FluentValidation;
@@ -31,6 +32,12 @@ public static class DependencyInjection
         services.AddScoped<GetAllUsersUseCase>();
 
         services.AddScoped<UpdateUserUseCase>();
+
+        #endregion
+
+        #region Promotions
+
+        services.AddScoped<CreatePromotionUseCase>();
 
         #endregion
 
