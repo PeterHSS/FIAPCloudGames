@@ -7,14 +7,14 @@ public class User : Entity
 {
     private User() { }
 
-    public string Name { get; set; }
-    public required string Email { get; set; }
-    public required string Password { get; set; }
-    public required string Nickname { get; set; }
-    public required string Document { get; set; }
-    public required DateTime BirthDate { get; set; }
-    public DateTime? UpdatedAt { get; set; }
-    public RoleEnum Role { get; set; }
+    public string Name { get; private set; }
+    public string Email { get; private set; }
+    public string Password { get; private set; }
+    public string Nickname { get; private set; }
+    public string Document { get; private set; }
+    public DateTime BirthDate { get; private set; }
+    public DateTime? UpdatedAt { get; private set; }
+    public RoleEnum Role { get; private set; }
     public ICollection<Game> Games { get; set; } = [];
 
     public static User Create(string name, string email, string password, string nickname, string document, DateTime birthDate)
@@ -31,5 +31,12 @@ public class User : Entity
             BirthDate = birthDate,
             Role = RoleEnum.User,
         };
+    }
+
+    public void UpdateInformation(string name, string nickname)
+    {
+        Name = name;
+        Nickname = nickname;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

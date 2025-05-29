@@ -28,9 +28,7 @@ public sealed class UpdateUserUseCase
         if (user is null)
             throw new KeyNotFoundException($"User with ID {id} not found.");
 
-        user.Name = request.Name;
-
-        user.Nickname = request.Nickname;
+        user.UpdateInformation(request.Name, request.Nickname);
 
         await _userRepository.UpdateAsync(user);
     }
