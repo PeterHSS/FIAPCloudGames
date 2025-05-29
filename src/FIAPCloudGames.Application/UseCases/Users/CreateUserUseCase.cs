@@ -1,17 +1,14 @@
-﻿using System.Runtime.CompilerServices;
-using FIAPCloudGames.Application.Abstractions.Infrastructure.Providers;
+﻿using FIAPCloudGames.Application.Abstractions.Infrastructure.Providers;
 using FIAPCloudGames.Application.DTOs.Users;
 using FIAPCloudGames.Application.Helpers;
 using FIAPCloudGames.Domain.Abstractions.Repositories;
 using FIAPCloudGames.Domain.Entities;
-using FluentValidation;
 
 namespace FIAPCloudGames.Application.UseCases.Users;
 
-public class CreateUserUseCase
+public sealed class CreateUserUseCase
 {
     private readonly IUserRepository _userRepository;
-    private readonly IValidator<CreateUserRequest> _validator;
     private readonly IPasswordHasherProvider _passwordHasher;
 
     public CreateUserUseCase(
