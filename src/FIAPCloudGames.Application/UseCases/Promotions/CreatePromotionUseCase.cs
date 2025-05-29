@@ -1,5 +1,6 @@
 ﻿using FIAPCloudGames.Application.DTOs.Promotion;
 using FIAPCloudGames.Domain.Abstractions.Repositories;
+using FIAPCloudGames.Domain.Entities;
 
 namespace FIAPCloudGames.Application.UseCases.Promotions;
 
@@ -14,6 +15,8 @@ public sealed class CreatePromotionUseCase
 
     public async Task HandleAsync(CreatePromotionRequest request)
     {
-        throw new NotImplementedException();
+        Promotion promotion = Promotion.Create(request.Name, request.StartDate, request.EndDate, request.DiscountPercentage, request.Description);
+
+        await _promotionRepository.AddAsync(promotion);
     }
 }
