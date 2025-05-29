@@ -1,4 +1,6 @@
-﻿using FIAPCloudGames.Application.DTOs.Promotion;
+﻿using Bogus;
+using FIAPCloudGames.Application.DTOs.Promotion;
+using FIAPCloudGames.Application.UseCases.Promotions;
 using FIAPCloudGames.Domain.Abstractions.Repositories;
 using FIAPCloudGames.Domain.Entities;
 using Moq;
@@ -7,40 +9,49 @@ namespace FIAPCloudGames.UnitTests.Application.UseCases.Promotions;
 
 public class CreatePromotionUseCaseTests
 {
+    private readonly Mock<IPromotionRepository> _promotionRepositoryMock;
+    private readonly CreatePromotionUseCase _useCase;
+    private readonly Faker<CreatePromotionRequest> _faker;
+
+    public CreatePromotionUseCaseTests()
+    {
+        _promotionRepositoryMock = new();
+
+        _useCase = new CreatePromotionUseCase(_promotionRepositoryMock.Object);
+
+        _faker = new Faker<CreatePromotionRequest>()
+            .CustomInstantiator(f => new CreatePromotionRequest(
+                Name: f.Commerce.ProductName(),
+                StartDate: f.Date.Future(1, DateTime.Today),
+                EndDate: f.Date.Future(2, DateTime.Today),
+                DiscountPercentage: f.Random.Decimal(),
+                Description: f.Lorem.Sentence()));
+    }
+
     [Fact]
     public async Task HandleAsync_WhenRequestIsValid_ShouldCreatePromotion()
     {
-        // Arrange
-        CreatePromotionRequest request = new()
-        {
-            Name = "Natal",
-            StartDate = new DateTime(2025, 12, 15),
-            EndDate = new DateTime(2025, 12, 31),
-            DiscountPercentage = 20,
-            Description = "Promoção de Natal"
-        };
+        CreatePromotionRequest request = _faker.Generate();
 
-        Promotion promotion = Promotion.Create(
-            name: request.Name,
-            startDate: request.StartDate,
-            endDate: request.EndDate,
-            discountPercentage: request.DiscountPercentage,
-            description: request.Description);
+        Promotion? capturedPromotion = null;
 
-        Mock<IPromotionRepository> promotionRepository = new Mock<IPromotionRepository>();
+        _promotionRepositoryMock
+            .Setup(r => r.AddAsync(It.IsAny<Promotion>(), It.IsAny<CancellationToken>()))
+            .Callback<Promotion, CancellationToken>((promotion, _) => capturedPromotion = promotion)
+            .Returns(Task.CompletedTask);
 
-        promotionRepository
-            .Setup(r => r.AddAsync(It.IsAny<Promotion>()))
-            .ReturnsAsync((Promotion p) => p);
+        await _useCase.HandleAsync(request);
 
-        var useCase = new CreatePromotionUseCase(promotionRepository.Object);
+        Assert.NotNull(capturedPromotion);
 
-        // Act
-        var result = await useCase.ExecuteAsync(request);
+        Assert.Equal(request.Name, capturedPromotion.Name);
 
-        // Assert
-        result.Should().NotBeNull();
-        result.Name.Should().Be(request.Name);
-        promotionRepository.Verify(r => r.AddAsync(It.IsAny<Users>()), Times.Once);
+        Assert.Equal(request.StartDate, capturedPromotion.StartDate);
+
+        Assert.Equal(request.EndDate, capturedPromotion.EndDate);
+
+        Assert.Equal(request.DiscountPercentage, capturedPromotion.DiscountPercentage);
+
+        Assert.Equal(request.Description, capturedPromotion.Description);
     }
 }
