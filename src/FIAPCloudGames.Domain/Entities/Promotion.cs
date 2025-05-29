@@ -13,4 +13,19 @@ public class Promotion : Entity
     public string Description { get; set; } = string.Empty;
     public DateTime? UpdatedAt { get; set; }
     public ICollection<Game> Games { get; set; }
+
+    public static Promotion Create(string name, DateTime startDate, DateTime endDate, decimal discountPercentage, string description)
+    {
+        return new Promotion
+        {
+            Id = Guid.NewGuid(),
+            CreatedAt = DateTime.UtcNow,
+            Name = name,
+            StartDate = startDate,
+            EndDate = endDate,
+            DiscountPercentage = discountPercentage,
+            Description = description,
+            Games = []
+        };
+    }
 }
