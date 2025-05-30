@@ -48,6 +48,8 @@ public static class DependencyInjection
 
         services.AddScoped<UpdateGameUseCase>();
 
+        services.AddScoped<GetGameByIdUseCase>();
+
         #endregion
 
         return services;
