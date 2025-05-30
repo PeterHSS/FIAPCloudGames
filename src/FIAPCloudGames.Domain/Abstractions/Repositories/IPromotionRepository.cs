@@ -9,4 +9,5 @@ public interface IPromotionRepository
     Task AddAsync(Promotion promotion, CancellationToken cancellationToken = default);
     Task UpdateAsync(Promotion promotion, CancellationToken cancellationToken = default);
     Task DeleteAsync(Promotion promotion, CancellationToken cancellationToken = default);
+    Task<Promotion?> GetByIdWithGamesAsync (Guid id, CancellationToken cancellationToken = default);
 }

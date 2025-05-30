@@ -21,6 +21,12 @@ public sealed class CreateUserUseCase
 
     public async Task HandleAsync(CreateUserRequest request)
     {
+        if (!await _userRepository.IsUniqueEmail(request.Email.ToLower()))
+            throw new ArgumentException("Email already exists.");
+
+        if (!await _userRepository.IsUniqueDocument(request.Document.OnlyNumbers()))
+            throw new ArgumentException("Document already exists.");
+
         string hashedPassword = _passwordHasher.Hash(request.Password);
 
         User user = User.Create(request.Name, request.Email, hashedPassword, request.Nickname, request.Document.OnlyNumbers(), request.BirthDate);

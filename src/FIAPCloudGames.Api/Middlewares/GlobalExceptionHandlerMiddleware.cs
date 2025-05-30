@@ -19,6 +19,7 @@ public class GlobalExceptionHandlerMiddleware : IExceptionHandler
 
         int statusCode = exception switch
         {
+            ArgumentException => StatusCodes.Status400BadRequest,
             KeyNotFoundException => StatusCodes.Status404NotFound,
             UnauthorizedAccessException => StatusCodes.Status403Forbidden,
             FormatException => StatusCodes.Status400BadRequest,

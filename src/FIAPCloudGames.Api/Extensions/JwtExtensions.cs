@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using FIAPCloudGames.Api.Authorization;
+using FIAPCloudGames.Domain.Enums;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -27,7 +29,10 @@ public static class JwtExtensions
                 };
             });
 
-        services.AddAuthorization();
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(AuthorizationPolicies.AdministratorOnly, policy => policy.RequireRole(RoleEnum.Administrator.ToString()));
+        });
 
         return services;
     }

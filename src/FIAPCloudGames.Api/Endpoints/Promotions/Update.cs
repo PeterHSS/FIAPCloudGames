@@ -1,24 +1,25 @@
 ﻿using FIAPCloudGames.Api.Authorization;
-using FIAPCloudGames.Application.DTOs.Promotion;
+using FIAPCloudGames.Application.DTOs.Promotions;
 using FIAPCloudGames.Application.UseCases.Promotions;
 using FluentValidation;
 
 namespace FIAPCloudGames.Api.Endpoints.Promotions;
 
-public class Create : IEndpoint
+public class Update : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("promotions", async (
-            CreatePromotionRequest request,
-            CreatePromotionUseCase useCase,
-            IValidator<CreatePromotionRequest> validator) =>
+        app.MapPut("promotions/{id:guid}", async (
+            Guid id,
+            UpdatePromotionRequest request,
+            UpdatePromotionUseCase useCase,
+            IValidator<UpdatePromotionRequest> validator) =>
         {
             validator.ValidateAndThrow(request);
 
-            await useCase.HandleAsync(request);
+            await useCase.HandleAsync(id, request);
 
-            return Results.Created();
+            return Results.Ok();
         })
         .WithTags(Tags.Promotions)
         .RequireAuthorization(AuthorizationPolicies.AdministratorOnly);

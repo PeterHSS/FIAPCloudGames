@@ -44,12 +44,26 @@ internal sealed class UserRepository : IUserRepository
         return await _genericRepository.GetByIdAsync(id, cancellationToken);
     }
 
-    public async Task<User?> GetByIdWithGamesync(Guid id)
+    public async Task<User?> GetByIdWithGamesync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _context.Users
             .AsNoTracking()
             .Include(user => user.Games)
-            .FirstOrDefaultAsync(user => user.Id == id);
+            .FirstOrDefaultAsync(user => user.Id == id, cancellationToken);
+    }
+
+    public async Task<bool> IsUniqueDocument(string document, CancellationToken cancellationToken = default)
+    {
+        return !await _context.Users
+            .AsNoTracking()
+            .AnyAsync(user => user.Document == document, cancellationToken);
+    }
+
+    public async Task<bool> IsUniqueEmail(string email, CancellationToken cancellationToken = default)
+    {
+        return !await _context.Users
+            .AsNoTracking()
+            .AnyAsync(user => user.Email == email, cancellationToken);
     }
 
     public async Task UpdateAsync(User user, CancellationToken cancellationToken = default)

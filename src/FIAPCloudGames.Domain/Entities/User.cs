@@ -24,7 +24,7 @@ public class User : Entity
             Id = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
             Name = name,
-            Email = email,
+            Email = email.ToLower(),
             Password = password,
             Nickname = nickname,
             Document = document,

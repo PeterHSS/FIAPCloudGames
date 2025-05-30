@@ -12,7 +12,7 @@ public class GetAll : IEndpoint
             IEnumerable<UserResponse> response = await useCase.HandleAsync();
 
             return Results.Ok(response);
-        })
+        }).RequireAuthorization()
         .WithTags(Tags.Users);
     }
 }

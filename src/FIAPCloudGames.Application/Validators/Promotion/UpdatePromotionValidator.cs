@@ -1,10 +1,10 @@
-﻿using FIAPCloudGames.Application.DTOs.Promotion;
+﻿using FIAPCloudGames.Application.DTOs.Promotions;
 
 namespace FIAPCloudGames.Application.Validators.Promotion;
 
-public sealed class CreatePromotionValidator : AbstractPromotionValidator<CreatePromotionRequest>
+public sealed class UpdatePromotionValidator : AbstractPromotionValidator<UpdatePromotionRequest>
 {
-    public CreatePromotionValidator()
+    public UpdatePromotionValidator()
     {
         AddNameRule(request => request.Name);
 

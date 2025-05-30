@@ -1,7 +1,6 @@
 ﻿using Bogus;
 using FIAPCloudGames.Application.DTOs.Promotion;
 using FIAPCloudGames.Application.Validators.Promotion;
-using FIAPCloudGames.Domain.Entities;
 using FluentValidation.TestHelper;
 
 namespace FIAPCloudGames.UnitTests.Application.Validators;
@@ -23,7 +22,6 @@ public class CreatePromotionValidatorTests
                 f.Random.Decimal(0, 100),
                 f.Lorem.Sentence(10)));
     }
-
 
     [Fact]
     public void Validate_NameExceedsMaxLength_ShouldHaveValidationError()
