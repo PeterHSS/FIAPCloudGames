@@ -30,6 +30,12 @@ public class Game : Entity
         };
     }
 
+    public void Delete()
+    {
+        IsActive = false;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
     public void Update(string name, string description, DateTime releasedAt, decimal price, string genre)
     {
         Name = name;

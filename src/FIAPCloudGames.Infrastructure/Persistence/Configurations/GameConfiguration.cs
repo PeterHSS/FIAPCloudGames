@@ -34,5 +34,7 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
         builder.HasIndex(game => game.IsActive).HasDatabaseName("IX_Games_IsActive");
 
         builder.HasIndex(game => game.Genre ).HasDatabaseName("IX_Games_Genre");
+
+        builder.HasQueryFilter(game => game.IsActive);
     }
 }

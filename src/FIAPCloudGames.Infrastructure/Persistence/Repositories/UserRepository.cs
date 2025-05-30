@@ -31,6 +31,7 @@ internal sealed class UserRepository : IUserRepository
         return await _context.Users
             .AsNoTracking()
             .Include(user => user.Games)
+            .IgnoreQueryFilters()
             .ToListAsync(cancellationToken);
     }
 
@@ -49,6 +50,7 @@ internal sealed class UserRepository : IUserRepository
         return await _context.Users
             .AsNoTracking()
             .Include(user => user.Games)
+            .IgnoreQueryFilters()
             .FirstOrDefaultAsync(user => user.Id == id, cancellationToken);
     }
 
