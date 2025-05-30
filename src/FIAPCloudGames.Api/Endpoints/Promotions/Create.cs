@@ -10,11 +10,11 @@ internal sealed class Create : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost("promotions",
-            async (CreatePromotionRequest request, CreatePromotionUseCase useCase, IValidator<CreatePromotionRequest> validator) =>
+            async (CreatePromotionRequest request, CreatePromotionUseCase useCase, IValidator<CreatePromotionRequest> validator, CancellationToken cancellationToken) =>
             {
                 validator.ValidateAndThrow(request);
 
-                await useCase.HandleAsync(request);
+                await useCase.HandleAsync(request, cancellationToken);
 
                 return Results.Created();
             })

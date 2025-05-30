@@ -8,11 +8,11 @@ internal sealed class Login : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost("users/login",
-            async (LoginRequest request, LoginUseCase useCase) =>
+            async (LoginRequest request, LoginUseCase useCase, CancellationToken cancellation) =>
             {
-                string result = await useCase.HandleAsync(request);
+                LoginResponse response = await useCase.HandleAsync(request, cancellation);
 
-                return Results.Ok(new { token = result });
+                return Results.Ok(response);
             })
             .WithTags(Tags.Users)
             .AllowAnonymous();

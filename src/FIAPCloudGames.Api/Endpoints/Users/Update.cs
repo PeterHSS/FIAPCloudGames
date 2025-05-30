@@ -9,11 +9,11 @@ internal sealed class Update : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPut("users/{id:guid}",
-            async (Guid id, UpdateUserRequest request, UpdateUserUseCase useCase, IValidator<UpdateUserRequest> validator) =>
+            async (Guid id, UpdateUserRequest request, UpdateUserUseCase useCase, IValidator<UpdateUserRequest> validator, CancellationToken cancellationToken) =>
             {
                 validator.ValidateAndThrow(request);
 
-                await useCase.HandleAsync(id, request);
+                await useCase.HandleAsync(id, request, cancellationToken);
 
                 return Results.Ok();
             })

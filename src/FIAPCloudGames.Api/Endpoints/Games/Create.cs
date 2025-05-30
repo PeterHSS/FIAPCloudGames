@@ -10,11 +10,11 @@ internal sealed class Create : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost("games",
-            async (CreateGameRequest request, CreateGameUseCase useCase, IValidator<CreateGameRequest> validator) =>
+            async (CreateGameRequest request, CreateGameUseCase useCase, IValidator<CreateGameRequest> validator, CancellationToken cancellationToken) =>
             {
                 validator.ValidateAndThrow(request);
 
-                await useCase.HandleAsync(request);
+                await useCase.HandleAsync(request, cancellationToken);
 
                 return Results.Created();
             })

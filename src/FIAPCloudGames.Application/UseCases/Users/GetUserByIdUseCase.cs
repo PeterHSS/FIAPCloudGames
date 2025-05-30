@@ -13,9 +13,9 @@ public sealed class GetUserByIdUseCase
         _userRepository = userRepository;
     }
 
-    public async Task<UserResponse> HandleAsync(Guid id)
+    public async Task<UserResponse> HandleAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        User? user = await _userRepository.GetByIdWithGamesync(id);
+        User? user = await _userRepository.GetByIdWithGamesync(id, cancellationToken);
 
         if (user is null)
             throw new KeyNotFoundException($"User with ID {id} not found.");

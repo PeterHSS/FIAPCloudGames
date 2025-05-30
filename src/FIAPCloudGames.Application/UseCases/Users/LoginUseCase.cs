@@ -22,9 +22,9 @@ public sealed class LoginUseCase
         _jwtProvider = jwtProvider;
     }
 
-    public async Task<string> HandleAsync(LoginRequest request)
+    public async Task<LoginResponse> HandleAsync(LoginRequest request, CancellationToken cancellation = default)
     {
-        User? user = await _userRepository.GetByEmailAsync(request.Email);
+        User? user = await _userRepository.GetByEmailAsync(request.Email, cancellation);
 
         if (user is null)
             throw new KeyNotFoundException("Invalid email or password.");
@@ -36,6 +36,6 @@ public sealed class LoginUseCase
 
         string token = _jwtProvider.Create(user);
 
-        return token;
+        return new LoginResponse(token);
     }
 }

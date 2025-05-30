@@ -13,10 +13,10 @@ public sealed class CreateGameUseCase
         _gameRepository = gameRepository;
     }
 
-    public async Task HandleAsync(CreateGameRequest request)
+    public async Task HandleAsync(CreateGameRequest request, CancellationToken cancellationToken)
     {
         Game game = Game.Create(request.Name, request.Description, request.ReleasedAt, request.Price, request.Genre);
 
-        await _gameRepository.AddAsync(game);
+        await _gameRepository.AddAsync(game, cancellationToken);
     }
 }

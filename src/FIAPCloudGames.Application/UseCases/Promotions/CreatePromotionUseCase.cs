@@ -13,10 +13,10 @@ public sealed class CreatePromotionUseCase
         _promotionRepository = promotionRepository;
     }
 
-    public async Task HandleAsync(CreatePromotionRequest request)
+    public async Task HandleAsync(CreatePromotionRequest request, CancellationToken cancellationToken = default)
     {
         Promotion promotion = Promotion.Create(request.Name, request.StartDate, request.EndDate, request.DiscountPercentage, request.Description);
 
-        await _promotionRepository.AddAsync(promotion);
+        await _promotionRepository.AddAsync(promotion, cancellationToken);
     }
 }

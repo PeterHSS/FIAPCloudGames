@@ -19,18 +19,18 @@ public sealed class CreateUserUseCase
         _passwordHasher = passwordHasher;
     }
 
-    public async Task HandleAsync(CreateUserRequest request)
+    public async Task HandleAsync(CreateUserRequest request, CancellationToken cancellationToken = default)
     {
-        if (!await _userRepository.IsUniqueEmail(request.Email.ToLower()))
+        if (!await _userRepository.IsUniqueEmail(request.Email.ToLower(), cancellationToken))
             throw new ArgumentException("Email already exists.");
 
-        if (!await _userRepository.IsUniqueDocument(request.Document.OnlyNumbers()))
+        if (!await _userRepository.IsUniqueDocument(request.Document.OnlyNumbers(), cancellationToken))
             throw new ArgumentException("Document already exists.");
 
         string hashedPassword = _passwordHasher.Hash(request.Password);
 
         User user = User.Create(request.Name, request.Email, hashedPassword, request.Nickname, request.Document.OnlyNumbers(), request.BirthDate);
 
-        await _userRepository.AddAsync(user);
+        await _userRepository.AddAsync(user, cancellationToken);
     }
 }

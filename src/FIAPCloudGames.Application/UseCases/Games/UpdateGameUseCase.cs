@@ -13,9 +13,9 @@ public sealed class UpdateGameUseCase
         _gameRepository = gameRepository;
     }
 
-    public async Task HandleAsync(Guid id, UpdateGameRequest request)
+    public async Task HandleAsync(Guid id, UpdateGameRequest request, CancellationToken cancellationToken = default)
     {
-        Game? game = await _gameRepository.GetByIdAsync(id);
+        Game? game = await _gameRepository.GetByIdAsync(id, cancellationToken);
 
         if (game is null)
             throw new KeyNotFoundException($"Game with ID {id} not found.");

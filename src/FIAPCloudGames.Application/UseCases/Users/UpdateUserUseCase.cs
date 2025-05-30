@@ -18,18 +18,18 @@ public sealed class UpdateUserUseCase
         _currentUserService = currentUserService;
     }
 
-    public async Task HandleAsync(Guid id, UpdateUserRequest request)
+    public async Task HandleAsync(Guid id, UpdateUserRequest request, CancellationToken cancellationToken = default)
     {
         if (id != _currentUserService.UserId)
             throw new UnauthorizedAccessException("You are not allowed to update this user.");
 
-        User? user = await _userRepository.GetByIdAsync(id);
+        User? user = await _userRepository.GetByIdAsync(id, cancellationToken);
 
         if (user is null)
             throw new KeyNotFoundException($"User with ID {id} not found.");
 
         user.UpdateInformation(request.Name, request.Nickname);
 
-        await _userRepository.UpdateAsync(user);
+        await _userRepository.UpdateAsync(user, cancellationToken);
     }
 }

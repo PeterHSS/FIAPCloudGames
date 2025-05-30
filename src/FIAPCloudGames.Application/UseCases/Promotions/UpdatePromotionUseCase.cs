@@ -13,15 +13,15 @@ public sealed class UpdatePromotionUseCase
         _promotionRepository = promotionRepository;
     }
 
-    public async Task HandleAsync(Guid id, UpdatePromotionRequest request)
+    public async Task HandleAsync(Guid id, UpdatePromotionRequest request, CancellationToken cancellationToken = default)
     {
-        Promotion? promotion = await _promotionRepository.GetByIdAsync(id);
+        Promotion? promotion = await _promotionRepository.GetByIdAsync(id, cancellationToken);
 
         if (promotion is null)
             throw new KeyNotFoundException($"Promotion with ID {id} not found.");
 
         promotion.Update(request.Name, request.StartDate, request.EndDate, request.DiscountPercentage, request.Description);
 
-        await _promotionRepository.UpdateAsync(promotion);
+        await _promotionRepository.UpdateAsync(promotion, cancellationToken);
     }
 }

@@ -17,17 +17,6 @@ public sealed class GetAllUsersUseCase
     {
         IEnumerable<User> users = await _userRepository.GetAllWithGamesAsync(cancellationToken);
 
-        return
-            users
-            .Select(user => new UserResponse(
-                user.Id,
-                user.Name,
-                user.Email,
-                user.Nickname,
-                user.Document,
-                user.BirthDate,
-                user.CreatedAt,
-                user.UpdatedAt,
-                user.Games.Select(UserGameResponse.Create)));
+        return users.Select(UserResponse.Create);
     }
 }
