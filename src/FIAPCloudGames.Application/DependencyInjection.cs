@@ -39,6 +39,8 @@ public static class DependencyInjection
         services.AddScoped<CreatePromotionUseCase>();
 
         services.AddScoped<UpdatePromotionUseCase>();
+        
+        services.AddScoped<GetPromotionByIdUseCase>();
 
         #endregion
 
