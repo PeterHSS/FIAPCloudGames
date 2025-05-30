@@ -42,6 +42,8 @@ public static class DependencyInjection
         
         services.AddScoped<GetPromotionByIdUseCase>();
 
+        services.AddScoped<DeletePromotionUseCase>();
+
         #endregion
 
         #region Games
