@@ -56,6 +56,8 @@ public static class DependencyInjection
 
         services.AddScoped<DeleteGameUseCase>();
 
+        services.AddScoped<GetAllGamesUseCase>();
+
         #endregion
 
         return services;
