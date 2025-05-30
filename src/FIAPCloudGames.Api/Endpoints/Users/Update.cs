@@ -5,7 +5,7 @@ using FluentValidation.Results;
 
 namespace FIAPCloudGames.Api.Endpoints.Users;
 
-public class Update : IEndpoint
+internal sealed class Update : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {

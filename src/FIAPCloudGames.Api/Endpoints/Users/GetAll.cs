@@ -3,7 +3,7 @@ using FIAPCloudGames.Application.UseCases.Users;
 
 namespace FIAPCloudGames.Api.Endpoints.Users;
 
-public class GetAll : IEndpoint
+internal sealed class GetAll : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {

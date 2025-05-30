@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace FIAPCloudGames.Api.Endpoints.Promotions;
 
-public class Create : IEndpoint
+internal sealed class Create : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {

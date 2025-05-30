@@ -1,12 +1,11 @@
-﻿
-using FIAPCloudGames.Api.Authorization;
+﻿using FIAPCloudGames.Api.Authorization;
 using FIAPCloudGames.Application.DTOs.Games;
 using FIAPCloudGames.Application.UseCases.Games;
 using FluentValidation;
 
 namespace FIAPCloudGames.Api.Endpoints.Games;
 
-public class Create : IEndpoint
+internal sealed class Create : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {

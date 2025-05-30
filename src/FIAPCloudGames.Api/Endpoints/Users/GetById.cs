@@ -1,10 +1,9 @@
-﻿
-using FIAPCloudGames.Application.DTOs.Users;
+﻿using FIAPCloudGames.Application.DTOs.Users;
 using FIAPCloudGames.Application.UseCases.Users;
 
 namespace FIAPCloudGames.Api.Endpoints.Users;
 
-public sealed class GetById : IEndpoint
+internal sealed class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
