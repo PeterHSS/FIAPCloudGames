@@ -37,6 +37,8 @@ public static class DependencyInjection
 
         services.AddScoped<IPromotionRepository, PromotionRepository>();
 
+        services.AddScoped<IGameRepository, GameRepository>();
+
         return services;
     }
 
