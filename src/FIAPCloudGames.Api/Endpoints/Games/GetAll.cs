@@ -15,7 +15,7 @@ internal sealed class GetAll : IEndpoint
 
                 return Results.Ok(response);
             })
-            .WithTags(Tags.Games);
-            //.RequireAuthorization();
+            .WithTags(Tags.Games)
+            .RequireAuthorization();
     }
 }
