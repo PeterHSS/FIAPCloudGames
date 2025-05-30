@@ -7,12 +7,14 @@ internal sealed class GetAll : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("users", async (GetAllUsersUseCase useCase) =>
-        {
-            IEnumerable<UserResponse> response = await useCase.HandleAsync();
+        app.MapGet("users",
+            async (GetAllUsersUseCase useCase) =>
+            {
+                IEnumerable<UserResponse> response = await useCase.HandleAsync();
 
-            return Results.Ok(response);
-        }).RequireAuthorization()
-        .WithTags(Tags.Users);
+                return Results.Ok(response);
+            })
+            .WithTags(Tags.Users)
+            .RequireAuthorization();
     }
 }

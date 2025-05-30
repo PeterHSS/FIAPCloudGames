@@ -9,17 +9,16 @@ internal sealed class Create : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("games", async (
-            CreateGameRequest request,
-            CreateGameUseCase useCase,
-            IValidator<CreateGameRequest> validator) =>
-        {
-            validator.ValidateAndThrow(request);
+        app.MapPost("games",
+            async (CreateGameRequest request, CreateGameUseCase useCase, IValidator<CreateGameRequest> validator) =>
+            {
+                validator.ValidateAndThrow(request);
 
-            await useCase.HandleAsync(request);
+                await useCase.HandleAsync(request);
 
-            return Results.Created();
-        }).WithTags(Tags.Games)
-        .RequireAuthorization(AuthorizationPolicies.AdministratorOnly);
+                return Results.Created();
+            })
+            .WithTags(Tags.Games)
+            .RequireAuthorization(AuthorizationPolicies.AdministratorOnly);
     }
 }

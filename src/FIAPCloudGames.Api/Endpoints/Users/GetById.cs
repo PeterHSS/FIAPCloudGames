@@ -7,12 +7,13 @@ internal sealed class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("users/{id:guid}", async (Guid id, GetUserByIdUseCase useCase) =>
-        {
-            UserResponse response = await useCase.HandleAsync(id);
+        app.MapGet("users/{id:guid}",
+            async (Guid id, GetUserByIdUseCase useCase) =>
+            {
+                UserResponse response = await useCase.HandleAsync(id);
 
-            return Results.Ok(response);
-        })
-        .WithTags(Tags.Users); 
+                return Results.Ok(response);
+            })
+            .WithTags(Tags.Users);
     }
 }

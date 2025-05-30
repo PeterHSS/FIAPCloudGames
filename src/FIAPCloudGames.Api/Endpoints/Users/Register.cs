@@ -8,15 +8,16 @@ internal sealed class Register : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("users/register", async (CreateUserRequest request, CreateUserUseCase useCase, IValidator<CreateUserRequest> validator) =>
-        {
-            validator.ValidateAndThrow(request);
-            
-            await useCase.HandleAsync(request);
+        app.MapPost("users/register",
+            async (CreateUserRequest request, CreateUserUseCase useCase, IValidator<CreateUserRequest> validator) =>
+            {
+                validator.ValidateAndThrow(request);
 
-            return Results.Created();
-        })
-        .WithTags(Tags.Users)
-        .AllowAnonymous();
+                await useCase.HandleAsync(request);
+
+                return Results.Created();
+            })
+            .WithTags(Tags.Users)
+            .AllowAnonymous();
     }
 }

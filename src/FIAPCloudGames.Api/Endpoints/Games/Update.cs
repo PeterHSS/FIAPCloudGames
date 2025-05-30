@@ -10,8 +10,7 @@ internal sealed class Update : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPut("/games/{id:guid}",
-            async (Guid id, UpdateGameRequest request, UpdateGameUseCase useCase, IValidator<UpdateGameRequest> validator)
-            =>
+            async (Guid id, UpdateGameRequest request, UpdateGameUseCase useCase, IValidator<UpdateGameRequest> validator) =>
             {
                 validator.ValidateAndThrow(request);
 
