@@ -29,4 +29,14 @@ public class Game : Entity
             Genre = genre
         };
     }
+
+    public void Update(string name, string description, DateTime releasedAt, decimal price, string genre)
+    {
+        Name = name;
+        Description = description;
+        ReleasedAt = releasedAt;
+        Price = price;
+        Genre = genre;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

@@ -46,6 +46,8 @@ public static class DependencyInjection
 
         services.AddScoped<CreateGameUseCase>();
 
+        services.AddScoped<UpdateGameUseCase>();
+
         #endregion
 
         return services;
