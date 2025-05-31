@@ -8,27 +8,21 @@ namespace FIAPCloudGames.Infrastructure.Persistence.Repositories;
 
 internal class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : Entity
 {
-    private readonly FIAPCloudGamesDbContext _context;
     private readonly DbSet<TEntity> _dbSet;
 
     public GenericRepository(FIAPCloudGamesDbContext context)
     {
-        _context = context;
         _dbSet = context.Set<TEntity>();
     }
 
     public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         await _dbSet.AddAsync(entity, cancellationToken);
-
-        await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public void Delete(TEntity entity, CancellationToken cancellationToken = default)
     {
         _dbSet.Remove(entity);
-
-        await _context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
@@ -46,11 +40,9 @@ internal class GenericRepository<TEntity> : IGenericRepository<TEntity> where TE
         return await _dbSet.AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
     }
 
-    public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public void Update(TEntity entity, CancellationToken cancellationToken = default)
     {
         _dbSet.Update(entity);
-
-        await _context.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<TEntity?> GetFirstOrDefaultAsync(CancellationToken cancellationToken = default)
@@ -61,5 +53,11 @@ internal class GenericRepository<TEntity> : IGenericRepository<TEntity> where TE
     public async Task<TEntity?> GetFirstOrDefaultAsyncWithFilter(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
     {
         return await _dbSet.AsNoTracking().FirstOrDefaultAsync(filter, cancellationToken);
+    }
+
+    public void UpdateRange(IEnumerable<TEntity> entities)
+    {
+        _dbSet.UpdateRange(entities);
+
     }
 }

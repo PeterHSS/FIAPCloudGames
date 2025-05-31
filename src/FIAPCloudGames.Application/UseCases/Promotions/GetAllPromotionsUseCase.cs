@@ -17,6 +17,6 @@ public sealed class GetAllPromotionsUseCase
     {
         IEnumerable<Promotion> promotions = await _promotionRepository.GetAllAsync(cancellationToken);
 
-        return promotions.Select(PromotionResponse.Create).ToList();
+        return promotions.Select(PromotionResponse.Create);
     }
 }

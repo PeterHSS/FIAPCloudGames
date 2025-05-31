@@ -10,13 +10,13 @@ public sealed class CreateUserUseCase
 {
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasherProvider _passwordHasher;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateUserUseCase(
-        IUserRepository userRepository,
-        IPasswordHasherProvider passwordHasher)
+    public CreateUserUseCase(IUserRepository userRepository, IPasswordHasherProvider passwordHasher, IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task HandleAsync(CreateUserRequest request, CancellationToken cancellationToken = default)
@@ -32,5 +32,7 @@ public sealed class CreateUserUseCase
         User user = User.Create(request.Name, request.Email, hashedPassword, request.Nickname, request.Document.OnlyNumbers(), request.BirthDate);
 
         await _userRepository.AddAsync(user, cancellationToken);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

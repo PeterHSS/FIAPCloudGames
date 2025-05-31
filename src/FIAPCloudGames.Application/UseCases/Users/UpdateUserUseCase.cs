@@ -9,13 +9,13 @@ public sealed class UpdateUserUseCase
 {
     private readonly IUserRepository _userRepository;
     private readonly ICurrentUserService _currentUserService;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateUserUseCase(
-        IUserRepository userRepository,
-        ICurrentUserService currentUserService)
+    public UpdateUserUseCase(IUserRepository userRepository, ICurrentUserService currentUserService, IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _currentUserService = currentUserService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task HandleAsync(Guid id, UpdateUserRequest request, CancellationToken cancellationToken = default)
@@ -30,6 +30,8 @@ public sealed class UpdateUserUseCase
 
         user.UpdateInformation(request.Name, request.Nickname);
 
-        await _userRepository.UpdateAsync(user, cancellationToken);
+        _userRepository.Update(user, cancellationToken);
+        
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

@@ -4,7 +4,7 @@ namespace FIAPCloudGames.Domain.Entities;
 
 public class Game : Entity
 {
-    private Game() {  }
+    private Game() { }
 
     public string Name { get; private set; } = string.Empty;
     public string Description { get; private set; } = string.Empty;
@@ -14,6 +14,19 @@ public class Game : Entity
     public string Genre { get; private set; } = string.Empty;
     public DateTime? UpdatedAt { get; private set; }
     public ICollection<User> Users { get; private set; } = [];
+    public Guid? PromotionId { get; private set; }
+    public Promotion? Promotion { get; private set; }
+
+    public decimal DiscountedPrice
+    {
+        get
+        {
+            if (Promotion is null || Promotion.StartDate > DateTime.UtcNow || Promotion.EndDate < DateTime.UtcNow)
+                return Price;
+
+            return Price * (1 - Promotion.DiscountPercentage / 100m);
+        }
+    }
 
     public static Game Create(string name, string description, DateTime releasedAt, decimal price, string genre)
     {
@@ -44,5 +57,17 @@ public class Game : Entity
         Price = price;
         Genre = genre;
         UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void ApplyPromotion(Promotion promotion)
+    {
+        Promotion = promotion;
+        PromotionId = promotion.Id;
+    }
+
+    public void RemovePromotion()
+    {
+        Promotion = null;
+        PromotionId = null;
     }
 }

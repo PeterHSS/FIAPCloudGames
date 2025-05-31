@@ -7,10 +7,12 @@ namespace FIAPCloudGames.Application.UseCases.Games;
 public sealed class UpdateGameUseCase
 {
     private readonly IGameRepository _gameRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateGameUseCase(IGameRepository gameRepository)
+    public UpdateGameUseCase(IGameRepository gameRepository, IUnitOfWork unitOfWork)
     {
         _gameRepository = gameRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task HandleAsync(Guid id, UpdateGameRequest request, CancellationToken cancellationToken = default)
@@ -22,6 +24,8 @@ public sealed class UpdateGameUseCase
 
         game.Update(request.Name, request.Description, request.ReleasedAt, request.Price, request.Genre);
 
-        await _gameRepository.UpdateAsync(game);
+        _gameRepository.Update(game);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

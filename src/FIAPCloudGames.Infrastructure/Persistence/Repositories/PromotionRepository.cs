@@ -21,9 +21,9 @@ internal sealed class PromotionRepository : IPromotionRepository
         await _genericRepository.AddAsync(promotion, cancellationToken);
     }
 
-    public async Task DeleteAsync(Promotion promotion, CancellationToken cancellationToken = default)
+    public void Delete(Promotion promotion, CancellationToken cancellationToken = default)
     {
-        await _genericRepository.DeleteAsync(promotion, cancellationToken);
+        _genericRepository.Delete(promotion, cancellationToken);
     }
 
     public async Task<IEnumerable<Promotion>> GetAllAsync(CancellationToken cancellationToken = default)
@@ -39,13 +39,12 @@ internal sealed class PromotionRepository : IPromotionRepository
     public async Task<Promotion?> GetByIdWithGamesAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _context.Promotions
-            .AsNoTracking()
             .Include(promotion => promotion.Games)
             .FirstOrDefaultAsync(promotion => promotion.Id == id, cancellationToken);
     }
 
-    public async Task UpdateAsync(Promotion promotion, CancellationToken cancellationToken = default)
+    public void Update(Promotion promotion, CancellationToken cancellationToken = default)
     {
-        await _genericRepository.UpdateAsync(promotion, cancellationToken);
+        _genericRepository.Update(promotion, cancellationToken);
     }
 }
