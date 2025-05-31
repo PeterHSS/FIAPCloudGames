@@ -10,6 +10,8 @@ namespace FIAPCloudGames.UnitTests.Application.UseCases.Promotions;
 public class CreatePromotionUseCaseTests
 {
     private readonly Mock<IPromotionRepository> _promotionRepositoryMock;
+    private readonly Mock<IGameRepository> _gameRepositoryMock;
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly CreatePromotionUseCase _useCase;
     private readonly Faker<CreatePromotionRequest> _faker;
 
@@ -17,7 +19,11 @@ public class CreatePromotionUseCaseTests
     {
         _promotionRepositoryMock = new();
 
-        _useCase = new CreatePromotionUseCase(_promotionRepositoryMock.Object);
+        _gameRepositoryMock = new();
+
+        _unitOfWorkMock = new();
+
+        _useCase = new CreatePromotionUseCase(_promotionRepositoryMock.Object, _gameRepositoryMock.Object, _unitOfWorkMock.Object);
 
         _faker = new Faker<CreatePromotionRequest>()
             .CustomInstantiator(f => new CreatePromotionRequest(
@@ -25,7 +31,9 @@ public class CreatePromotionUseCaseTests
                 StartDate: f.Date.Future(1, DateTime.Today),
                 EndDate: f.Date.Future(2, DateTime.Today),
                 DiscountPercentage: f.Random.Decimal(),
-                Description: f.Lorem.Sentence()));
+                Description: f.Lorem.Sentence(),
+                GamesId: []));
+
     }
 
     [Fact]

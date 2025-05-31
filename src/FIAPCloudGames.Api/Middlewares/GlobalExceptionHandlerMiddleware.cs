@@ -33,8 +33,7 @@ public class GlobalExceptionHandlerMiddleware : IExceptionHandler
 
         ProblemDetails problemDetails = new()
         {
-            Status = statusCode,
-            Title = exception is ValidationException ? string.Empty : exception.Message
+            Status = statusCode            
         };
 
         if (exception is ValidationException validationException)

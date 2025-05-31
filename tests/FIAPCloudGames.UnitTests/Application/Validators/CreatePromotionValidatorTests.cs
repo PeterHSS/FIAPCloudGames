@@ -20,7 +20,8 @@ public class CreatePromotionValidatorTests
                 f.Date.Past(1, DateTime.Today),
                 f.Date.Future(1, DateTime.Today),
                 f.Random.Decimal(0, 100),
-                f.Lorem.Sentence(10)));
+                f.Lorem.Sentence(10),
+                []));
     }
 
     [Fact]

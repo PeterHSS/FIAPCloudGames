@@ -26,6 +26,6 @@ public class PromotionConfiguration : IEntityTypeConfiguration<Promotion>
 
         builder.Property(promotion => promotion.Description).HasMaxLength(1000);
 
-        builder.HasMany(promotion => promotion.Games).WithOne().HasForeignKey("PromotionId").OnDelete(DeleteBehavior.SetNull);
+        builder.Navigation(promotion => promotion.Games).AutoInclude();
     }
 }

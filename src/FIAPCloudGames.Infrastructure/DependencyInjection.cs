@@ -31,6 +31,8 @@ public static class DependencyInjection
     {
         services.AddDbContext<FIAPCloudGamesDbContext>(options => options.UseSqlServer(configuration.GetConnectionString(DatabaseEnum.FIAPCloudGames.ToString())));
 
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
         services.AddScoped<IUserRepository, UserRepository>();

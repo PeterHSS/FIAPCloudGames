@@ -7,10 +7,12 @@ namespace FIAPCloudGames.Application.UseCases.Promotions;
 public sealed class UpdatePromotionUseCase
 {
     private readonly IPromotionRepository _promotionRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UpdatePromotionUseCase(IPromotionRepository promotionRepository)
+    public UpdatePromotionUseCase(IPromotionRepository promotionRepository, IUnitOfWork unitOfWork)
     {
         _promotionRepository = promotionRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task HandleAsync(Guid id, UpdatePromotionRequest request, CancellationToken cancellationToken = default)
@@ -22,6 +24,8 @@ public sealed class UpdatePromotionUseCase
 
         promotion.Update(request.Name, request.StartDate, request.EndDate, request.DiscountPercentage, request.Description);
 
-        await _promotionRepository.UpdateAsync(promotion, cancellationToken);
+        _promotionRepository.Update(promotion, cancellationToken);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

@@ -68,8 +68,8 @@ internal sealed class UserRepository : IUserRepository
             .AnyAsync(user => user.Email == email, cancellationToken);
     }
 
-    public async Task UpdateAsync(User user, CancellationToken cancellationToken = default)
+    public void Update(User user, CancellationToken cancellationToken = default)
     {
-        await _genericRepository.UpdateAsync(user, cancellationToken);
+        _genericRepository.Update(user, cancellationToken);
     }
 }
