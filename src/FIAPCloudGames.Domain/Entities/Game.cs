@@ -4,16 +4,16 @@ namespace FIAPCloudGames.Domain.Entities;
 
 public class Game : Entity
 {
-    private Game() { }
+    private Game() {  }
 
-    public string Name { get; private set; }
-    public string Description { get; private set; }
+    public string Name { get; private set; } = string.Empty;
+    public string Description { get; private set; } = string.Empty;
     public DateTime ReleasedAt { get; private set; }
     public decimal Price { get; private set; }
     public bool IsActive { get; private set; }
-    public string Genre { get; private set; }
+    public string Genre { get; private set; } = string.Empty;
     public DateTime? UpdatedAt { get; private set; }
-    public ICollection<User> Users { get; private set; }
+    public ICollection<User> Users { get; private set; } = [];
 
     public static Game Create(string name, string description, DateTime releasedAt, decimal price, string genre)
     {

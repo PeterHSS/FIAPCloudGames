@@ -7,11 +7,11 @@ public class User : Entity
 {
     private User() { }
 
-    public string Name { get; private set; }
-    public string Email { get; private set; }
-    public string Password { get; private set; }
-    public string Nickname { get; private set; }
-    public string Document { get; private set; }
+    public string Name { get; private set; } = string.Empty;
+    public string Email { get; private set; } = string.Empty;
+    public string Password { get; private set; } = string.Empty;
+    public string Nickname { get; private set; } = string.Empty;
+    public string Document { get; private set; } = string.Empty;    
     public DateTime BirthDate { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
     public RoleEnum Role { get; private set; }

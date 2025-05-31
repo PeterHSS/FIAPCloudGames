@@ -9,8 +9,6 @@ public record UserResponse(
     string Nickname,
     string Document,
     DateTime BirthDate,
-    DateTime CreatedAt,
-    DateTime? UpdatedAt,
     IEnumerable<UserGameResponse> Games)
 {
     public static UserResponse Create(User user)
@@ -22,8 +20,6 @@ public record UserResponse(
             user.Nickname,
             user.Document,
             user.BirthDate,
-            user.CreatedAt,
-            user.UpdatedAt,
             user.Games.Select(UserGameResponse.Create));
     }
 }

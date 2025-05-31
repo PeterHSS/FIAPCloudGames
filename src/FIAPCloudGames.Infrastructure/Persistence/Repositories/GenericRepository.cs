@@ -14,7 +14,7 @@ internal class GenericRepository<TEntity> : IGenericRepository<TEntity> where TE
     public GenericRepository(FIAPCloudGamesDbContext context)
     {
         _context = context;
-        _dbSet = context.Set<TEntity>();    
+        _dbSet = context.Set<TEntity>();
     }
 
     public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
@@ -31,14 +31,14 @@ internal class GenericRepository<TEntity> : IGenericRepository<TEntity> where TE
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter = null, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        IQueryable<TEntity> entities = _dbSet.AsNoTracking();
+        return await _dbSet.AsNoTracking().ToListAsync(cancellationToken);
+    }
 
-        if (filter is not null)
-            entities = entities.Where(filter);
-
-        return await entities.ToListAsync(cancellationToken);
+    public async Task<IEnumerable<TEntity>> GetAllWithFilterAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
+    {
+        return await _dbSet.AsNoTracking().Where(filter).ToListAsync(cancellationToken);
     }
 
     public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
@@ -53,8 +53,13 @@ internal class GenericRepository<TEntity> : IGenericRepository<TEntity> where TE
         await _context.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task<TEntity?> GetFirstOrDefaultAsync(CancellationToken cancellationToken = default)
+    {
+        return await _dbSet.AsNoTracking().FirstOrDefaultAsync(cancellationToken);
+    }
+
     public async Task<TEntity?> GetFirstOrDefaultAsyncWithFilter(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
     {
-        return await _dbSet.AsNoTracking().Where(filter).FirstOrDefaultAsync(cancellationToken);
+        return await _dbSet.AsNoTracking().FirstOrDefaultAsync(filter, cancellationToken);
     }
 }

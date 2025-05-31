@@ -25,7 +25,7 @@ public class PasswordHasherProviderTests
 
         Assert.NotEqual(password, hashed);
 
-        Assert.Contains("-", hashed); // verifica formato esperado
+        Assert.Contains("-", hashed); 
     }
 
     [Fact]

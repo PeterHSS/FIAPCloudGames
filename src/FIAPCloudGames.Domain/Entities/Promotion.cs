@@ -6,13 +6,13 @@ public class Promotion : Entity
 {
     private Promotion() { }
 
-    public string Name { get; private set; }
+    public string Name { get; private set; } = string.Empty;
     public DateTime StartDate { get; private set; }
     public DateTime EndDate { get; private set; }
     public decimal DiscountPercentage { get; private set; }
-    public string Description { get; private set; } 
+    public string Description { get; private set; } = string.Empty; 
     public DateTime? UpdatedAt { get; private set; }
-    public ICollection<Game> Games { get; init; }
+    public ICollection<Game> Games { get; init; } = [];
 
     public static Promotion Create(string name, DateTime startDate, DateTime endDate, decimal discountPercentage, string description)
     {
