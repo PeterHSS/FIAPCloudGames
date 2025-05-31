@@ -15,7 +15,7 @@ internal sealed class Update : IEndpoint
 
                 await useCase.HandleAsync(id, request, cancellationToken);
 
-                return Results.Ok();
+                return Results.NoContent();
             })
             .WithTags(Tags.Users)
             .RequireAuthorization();
