@@ -6,17 +6,8 @@ namespace FIAPCloudGames.Api.Middlewares;
 
 public class GlobalExceptionHandlerMiddleware : IExceptionHandler
 {
-    private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
-
-    public GlobalExceptionHandlerMiddleware(ILogger<GlobalExceptionHandlerMiddleware> logger)
-    {
-        _logger = logger;
-    }
-
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        _logger.LogError(exception, "An exception occurred.");
-
         int statusCode = exception switch
         {
             ArgumentException => StatusCodes.Status400BadRequest,
