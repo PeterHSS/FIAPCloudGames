@@ -40,7 +40,7 @@ O projeto segue os princípios da Clean Architecture, com uma separação clara 
 - Domínio (entidades e regras de negócio)
 - Aplicação (casos de uso)
 - Infraestrutura (acesso a dados, serviços externos)
-- Interface (API) (controladores e endpoints)
+- Interface (API) (endpoints e middlewares)
 
 Outros destaques:
 - Projeto estruturado em formato monolítico
