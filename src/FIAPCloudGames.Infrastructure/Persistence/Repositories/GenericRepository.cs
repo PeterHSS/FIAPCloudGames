@@ -37,7 +37,7 @@ internal class GenericRepository<TEntity> : IGenericRepository<TEntity> where TE
 
     public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _dbSet.AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
+        return await _dbSet.FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
     }
 
     public void Update(TEntity entity, CancellationToken cancellationToken = default)
