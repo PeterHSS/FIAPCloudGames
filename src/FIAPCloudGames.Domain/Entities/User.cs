@@ -33,6 +33,19 @@ public class User : Entity
         };
     }
 
+    public bool HasPurchasedGame(Game game)
+    {
+        return Games.Any(g => g.Id == game.Id);
+    }
+
+    public void PurchaseGame(Game game)
+    {
+        if (HasPurchasedGame(game))
+            return;
+
+        Games.Add(game);
+    }
+
     public void UpdateInformation(string name, string nickname)
     {
         Name = name;

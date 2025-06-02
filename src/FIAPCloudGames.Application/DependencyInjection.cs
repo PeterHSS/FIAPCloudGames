@@ -32,6 +32,8 @@ public static class DependencyInjection
 
         services.AddScoped<UpdateUserUseCase>();
 
+        services.AddScoped<PurchaseGamesUseCase>();
+
         #endregion
 
         #region Promotions
@@ -45,6 +47,10 @@ public static class DependencyInjection
         services.AddScoped<DeletePromotionUseCase>();
 
         services.AddScoped<GetAllPromotionsUseCase>();
+
+        services.AddScoped<AddGameToPromotionUseCase>();
+
+        services.AddScoped<RemoveGameFromPromotionUseCase>();
 
         #endregion
 

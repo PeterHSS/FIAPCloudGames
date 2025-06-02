@@ -48,7 +48,6 @@ internal sealed class UserRepository : IUserRepository
     public async Task<User?> GetByIdWithGamesync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _context.Users
-            .AsNoTracking()
             .Include(user => user.Games)
             .IgnoreQueryFilters()
             .FirstOrDefaultAsync(user => user.Id == id, cancellationToken);

@@ -14,14 +14,20 @@ public class CreateUserUseCaseTests
 {
     private readonly Mock<IUserRepository> _userRepositoryMock;
     private readonly Mock<IPasswordHasherProvider> _passwordHasherMock;
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly CreateUserUseCase _useCase;
     private readonly Faker<CreateUserRequest> _faker;
 
     public CreateUserUseCaseTests()
     {
         _userRepositoryMock = new Mock<IUserRepository>();
+
         _passwordHasherMock = new Mock<IPasswordHasherProvider>();
-        _useCase = new CreateUserUseCase(_userRepositoryMock.Object, _passwordHasherMock.Object);
+
+        _unitOfWorkMock = new Mock<IUnitOfWork>();
+
+        _useCase = new CreateUserUseCase(_userRepositoryMock.Object, _passwordHasherMock.Object, _unitOfWorkMock.Object);
+        
         _faker = new Faker<CreateUserRequest>()
             .CustomInstantiator(f => new CreateUserRequest(
                 f.Person.FullName,

@@ -63,11 +63,13 @@ public class Game : Entity
     {
         Promotion = promotion;
         PromotionId = promotion.Id;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     public void RemovePromotion()
     {
         Promotion = null;
         PromotionId = null;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

@@ -39,7 +39,6 @@ internal sealed class GameRepository : IGameRepository
     public async Task<IEnumerable<Game>> GetByIdListAsync(IEnumerable<Guid> guids, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Games
-            .AsNoTracking()
             .Where(game => guids.Contains(game.Id))
             .ToListAsync(cancellationToken);
     }
