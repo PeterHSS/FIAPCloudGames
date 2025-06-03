@@ -1,4 +1,5 @@
-﻿using Bogus;
+﻿using System.Data;
+using Bogus;
 using FIAPCloudGames.Application.DTOs.Promotion;
 using FIAPCloudGames.Application.UseCases.Promotions;
 using FIAPCloudGames.Domain.Abstractions.Repositories;
@@ -14,6 +15,7 @@ public class CreatePromotionUseCaseTests
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly CreatePromotionUseCase _useCase;
     private readonly Faker<CreatePromotionRequest> _faker;
+    private readonly Mock<IDbTransaction> _transactionMock;
 
     public CreatePromotionUseCaseTests()
     {
@@ -22,6 +24,16 @@ public class CreatePromotionUseCaseTests
         _gameRepositoryMock = new();
 
         _unitOfWorkMock = new();
+
+        _transactionMock = new Mock<IDbTransaction>();
+
+        _unitOfWorkMock
+            .Setup(u => u.BeginTransaction(It.IsAny<CancellationToken>()))
+            .Returns(_transactionMock.Object);
+
+        _unitOfWorkMock
+            .Setup(u => u.SaveChangesAsync (It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
 
         _useCase = new CreatePromotionUseCase(_promotionRepositoryMock.Object, _gameRepositoryMock.Object, _unitOfWorkMock.Object);
 
@@ -49,6 +61,10 @@ public class CreatePromotionUseCaseTests
             .Returns(Task.CompletedTask);
 
         await _useCase.HandleAsync(request);
+
+        _transactionMock
+            .Verify(t => t.Commit(), Times.Once);
+
 
         Assert.NotNull(capturedPromotion);
 

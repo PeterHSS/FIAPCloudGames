@@ -31,7 +31,7 @@ public class CreateUserUseCaseTests
         _faker = new Faker<CreateUserRequest>()
             .CustomInstantiator(f => new CreateUserRequest(
                 f.Person.FullName,
-                f.Internet.Email(),
+                f.Internet.Email().ToLower(),
                 f.Internet.Password(),
                 f.Internet.UserName(),
                 f.Person.Cpf(true),
@@ -48,6 +48,14 @@ public class CreateUserUseCaseTests
         _passwordHasherMock
             .Setup(p => p.Hash(request.Password))
             .Returns(hashedPassword);
+
+        _userRepositoryMock
+            .Setup(r => r.IsUniqueEmail(request.Email.ToLower(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
+
+        _userRepositoryMock
+            .Setup(r => r.IsUniqueDocument(request.Document.OnlyNumbers(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
 
         User? capturedUser = null;
 
