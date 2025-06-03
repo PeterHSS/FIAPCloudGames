@@ -1,4 +1,5 @@
-﻿using FIAPCloudGames.Application.DTOs.Users;
+﻿using FIAPCloudGames.Api.Authorization;
+using FIAPCloudGames.Application.DTOs.Users;
 using FIAPCloudGames.Application.UseCases.Users;
 
 namespace FIAPCloudGames.Api.Endpoints.Users;
@@ -14,6 +15,7 @@ internal sealed class GetById : IEndpoint
 
                 return Results.Ok(response);
             })
-            .WithTags(Tags.Users);
+            .WithTags(Tags.Users)
+            .RequireAuthorization(AuthorizationPolicies.AdministratorOnly);
     }
 }
