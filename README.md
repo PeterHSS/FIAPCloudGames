@@ -75,13 +75,13 @@ Outros destaques:
 2. Restaure os pacotes:
     ```bash
     dotnet restore
-3. Aplique as migrations (caso ainda não esteja com o banco pronto):
+3. Crie o banco de dados no SQL Server e altere a ConnectionString no appsettings.json
+    
+3. Aplique as migrations (caso ainda não esteja com o banco pronto) via Package Manager Console:
     ```bash
-    dotnet ef database update
+    Update-Database
 4. Execute a API:
-    ```bash
-    dotnet run --project src/FIAPCloudGames
-5. Acesse a documentação Swagger:
+   6. Acesse a documentação Swagger:
     ```bash
     https://localhost:{porta}/swagger
 ## 🧪 RODANDO OS TESTES
