@@ -22,7 +22,7 @@ public class PromotionConfiguration : IEntityTypeConfiguration<Promotion>
 
         builder.Property(promotion => promotion.EndDate).IsRequired();
 
-        builder.Property(promotion => promotion.DiscountPercentage).IsRequired().HasColumnType("decimal(10,2)");
+        builder.Property(promotion => promotion.DiscountPercentage).IsRequired().HasPrecision(10,2);
 
         builder.Property(promotion => promotion.Description).HasMaxLength(1000);
 

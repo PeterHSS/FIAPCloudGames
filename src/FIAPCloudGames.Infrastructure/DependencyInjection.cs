@@ -29,7 +29,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<FIAPCloudGamesDbContext>(options => options.UseSqlServer(configuration.GetConnectionString(DatabaseEnum.FIAPCloudGames.ToString())));
+        services.AddDbContext<FIAPCloudGamesDbContext>(options => options.UseNpgsql(configuration.GetConnectionString(DatabaseEnum.FIAPCloudGames.ToString())));
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
