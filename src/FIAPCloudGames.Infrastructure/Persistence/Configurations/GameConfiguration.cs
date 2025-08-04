@@ -23,7 +23,7 @@ public class GameConfiguration : IEntityTypeConfiguration<Game>
 
         builder.Property(game => game.ReleasedAt).IsRequired();
 
-        builder.Property(game => game.Price).IsRequired().HasColumnType("decimal(10,2)");
+        builder.Property(game => game.Price).IsRequired().HasPrecision(10,2);
 
         builder.Property(game => game.IsActive).IsRequired();
 

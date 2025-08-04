@@ -31,6 +31,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
 
     app.UseSwaggerUI();
+
+    app.ApplyMigrations();
 }
 
 app.UseMiddleware<RequestLogContextMiddleware>();
@@ -38,8 +40,6 @@ app.UseMiddleware<RequestLogContextMiddleware>();
 app.UseSerilogRequestLogging();
 
 app.UseExceptionHandler();
-
-app.UseHttpsRedirection();
 
 app.UseJwtAuthenticationAndAuthorization();
 
