@@ -40,7 +40,7 @@ jobs:
         with:
           push: true
           tags: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:${{ github.sha }}
-          file: FIAPCloudGames.Api/Dockerfile
+          file: src/FIAPCloudGames.Api/Dockerfile
 
       - name: Azure Login
         uses: azure/login@v2
