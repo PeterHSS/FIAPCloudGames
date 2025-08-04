@@ -7,14 +7,14 @@ internal sealed class Login : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("users/login",
-            async (LoginRequest request, LoginUseCase useCase, CancellationToken cancellation) =>
-            {
-                LoginResponse response = await useCase.HandleAsync(request, cancellation);
+        //app.MapPost("users/login",
+        //    async (LoginRequest request, LoginUseCase useCase, CancellationToken cancellation) =>
+        //    {
+        //        LoginResponse response = await useCase.HandleAsync(request, cancellation);
 
-                return Results.Ok(response);
-            })
-            .WithTags(Tags.Users)
-            .AllowAnonymous();
+        //        return Results.Ok(response);
+        //    })
+        //    .WithTags(Tags.Users)
+        //    .AllowAnonymous();
     }
 }
