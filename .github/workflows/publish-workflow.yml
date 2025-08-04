@@ -25,6 +25,9 @@ jobs:
       - name: Build
         run: dotnet build fiap-cloud-games.sln --configuration Release
 
+      - name: Test
+        run: dotnet test fiap-cloud-games.sln --configuration Release --no-build --verbosity normal
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
