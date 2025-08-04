@@ -1,0 +1,6 @@
+services:
+  fiapcloudgames.api:
+    image: ${DOCKER_REGISTRY-}fiapcloudgamesapi
+    build:
+      context: .
+      dockerfile: src/FIAPCloudGames.Api/Dockerfile

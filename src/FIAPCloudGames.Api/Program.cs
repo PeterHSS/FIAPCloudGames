@@ -41,8 +41,6 @@ app.UseSerilogRequestLogging();
 
 app.UseExceptionHandler();
 
-app.UseHttpsRedirection();
-
 app.UseJwtAuthenticationAndAuthorization();
 
 app.MapEndpoints(versionedGroup);
