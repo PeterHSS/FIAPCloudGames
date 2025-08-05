@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using Asp.Versioning.Builder;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using FIAPCloudGames.Api;
 using FIAPCloudGames.Api.Extensions;
 using FIAPCloudGames.Api.Middlewares;
@@ -15,6 +16,10 @@ builder.Services
     .AddInfrastructure(builder.Configuration);
 
 builder.Host.AddSerilog();
+
+builder.Services
+    .AddOpenTelemetry()
+    .UseAzureMonitor(configureAzureMonitor => configureAzureMonitor.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"]);
 
 WebApplication app = builder.Build();
 
